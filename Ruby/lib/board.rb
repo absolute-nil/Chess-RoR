@@ -15,7 +15,10 @@ class Board
   end
 
   def report
-    puts 'you to initialize the pawn first' if @my_piece.nil?
+    if @my_piece.nil?
+      puts 'you have to initialize the pawn first'
+      return nil
+    end
     id = @my_piece
     @piece = Piece.get_instance_by_id(id)[0]
 
@@ -38,8 +41,13 @@ class Board
 
   def change_direction(direction, id = nil)
     if @my_piece.nil?
-      puts 'you to initialize the pawn first'
-      return
+      puts 'you have to initialize the pawn first'
+      return nil
+    end
+
+    if direction != 'LEFT' || direction != 'RIGHT'
+      puts 'not a valid input'
+      return nil
     end
 
     @piece = Piece.get_instance_by_id(@my_piece)[0]
@@ -53,6 +61,7 @@ class Board
       piece = Pawn.new(@pieces, x, y, face, color, self)
       @my_piece = piece.id
       @pieces += 1
+      piece.id
     else
       puts 'not a valid input'
       nil

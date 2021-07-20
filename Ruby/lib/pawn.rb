@@ -22,7 +22,7 @@ class Pawn < Piece
 
   def validate_position(new_x, new_y)
 
-    raise 'Not a valid move' if new_x.negative?
+    raise 'Not a valid move' if new_x.negative? || new_y.negative?
 
     move_within_bounds = @board.move_within_bounds?(new_x, new_y)
 
@@ -32,7 +32,7 @@ class Pawn < Piece
   end
 
   def validate(units)
-    return nil unless valid_fist_move?(units)
+    return [nil, nil] unless valid_fist_move?(units)
 
     new_x, new_y = coordinates_after_move(units)
 
@@ -41,7 +41,10 @@ class Pawn < Piece
   end
 
   def move(units, direction)
-    puts "you can not move the Pawn in #{direction} direction " if direction != 'FORWARD'
+    if direction != 'FORWARD'
+      puts "you can not move the Pawn in #{direction} direction "
+      return nil
+    end
 
     move_front(units)
   end
@@ -62,8 +65,10 @@ class Pawn < Piece
   def move_front(units)
 
     new_x, new_y = validate(units)
-    set_position(new_x, new_y, @face)
-    @first_move = false
+    unless new_x.nil?
+      set_position(new_x, new_y, @face)
+      @first_move = false
+    end
   rescue RuntimeError
     puts 'Not a valid move, Try again!'
 
