@@ -12,6 +12,11 @@ class Pawn < Piece
   end
 
   def valid_fist_move?(units)
+    if units < -2 || units > 2
+      puts "You can't move the piece #{@id} by #{units} positions"
+      return false
+    end
+
     if (units > 1 || units < -1) && !@first_move
       puts "You can't move the piece #{@id} by #{units} positions"
       return false
@@ -36,8 +41,9 @@ class Pawn < Piece
 
     new_x, new_y = coordinates_after_move(units)
 
-    [new_x, new_y] if validate_position(new_x, new_y)
+    return [new_x, new_y] if validate_position(new_x, new_y)
 
+    [nil, nil]
   end
 
   def move(units, direction)
