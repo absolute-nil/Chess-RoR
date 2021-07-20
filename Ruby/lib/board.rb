@@ -45,7 +45,7 @@ class Board
       return nil
     end
 
-    if direction != 'LEFT' || direction != 'RIGHT'
+    if direction != 'LEFT' && direction != 'RIGHT'
       puts 'not a valid input'
       return nil
     end
